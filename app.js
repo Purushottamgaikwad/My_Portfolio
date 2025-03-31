@@ -64,3 +64,40 @@ function closemenu(){
 
 
 }
+
+
+let startY = 0; // Store initial touch position
+let endY = 0; // Store final touch position
+let isScrolling = false;
+
+document.addEventListener("touchstart", (event) => {
+    startY = event.touches[0].clientY;
+});
+
+document.addEventListener("touchend", (event) => {
+    if (isScrolling) return; // Prevent multiple triggers
+    isScrolling = true;
+
+    endY = event.changedTouches[0].clientY;
+    let deltaY = startY - endY;
+
+    const sections = document.querySelectorAll("section");
+    const currentSection = [...sections].find(section =>
+        section.getBoundingClientRect().top >= -50
+    );
+
+    let nextSection;
+    if (deltaY > 50) {
+        // Swipe Up → Scroll Down
+        nextSection = currentSection?.nextElementSibling;
+    } else if (deltaY < -50) {
+        // Swipe Down → Scroll Up
+        nextSection = currentSection?.previousElementSibling;
+    }
+
+    if (nextSection) {
+        nextSection.scrollIntoView({ behavior: "smooth" });
+    }
+
+    setTimeout(() => isScrolling = false, 1000); // Delay to prevent multiple triggers
+});

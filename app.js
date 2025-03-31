@@ -87,10 +87,10 @@ document.addEventListener("touchend", (event) => {
     );
 
     let nextSection;
-    if (deltaY > 50) {
+    if (deltaY > 100) {
         // Swipe Up → Scroll Down
         nextSection = currentSection?.nextElementSibling;
-    } else if (deltaY < -50) {
+    } else if (deltaY < -100) {
         // Swipe Down → Scroll Up
         nextSection = currentSection?.previousElementSibling;
     }
